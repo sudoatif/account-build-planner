@@ -50,17 +50,16 @@ public class PlannerTest
 	public void glovesBuildsFreeTheRightSubquests()
 	{
 		Set<Quest> mithril = EnumSet.of(Quest.RECIPE_FOR_DISASTER__WARTFACE__BENTNOZE, Quest.RECIPE_FOR_DISASTER__MOUNTAIN_DWARF,
-			Quest.RECIPE_FOR_DISASTER__PIRATE_PETE, Quest.RECIPE_FOR_DISASTER__LUMBRIDGE_GUIDE, Quest.RECIPE_FOR_DISASTER__SKRACH_UGLOGWEE);
+			Quest.RECIPE_FOR_DISASTER__PIRATE_PETE, Quest.RECIPE_FOR_DISASTER__LUMBRIDGE_GUIDE, Quest.RECIPE_FOR_DISASTER__EVIL_DAVE);
 		assertEquals(mithril, freed(Build.MITHRIL_GLOVES));
 		Set<Quest> adamant = EnumSet.copyOf(mithril);
-		adamant.add(Quest.RECIPE_FOR_DISASTER__EVIL_DAVE);
+		adamant.add(Quest.RECIPE_FOR_DISASTER__SKRACH_UGLOGWEE);
 		assertEquals(adamant, freed(Build.ADAMANT_GLOVES));
 
 		for (Build b : List.of(Build.MITHRIL_GLOVES, Build.ADAMANT_GLOVES))
 		{
 			assertTrue(b + " has filler, the planner could skip a needed quest", b.route.stream().noneMatch(s -> s.filler));
 		}
-		assertTrue(Build.MITHRIL_GLOVES.route.stream().noneMatch(s -> s.skills.containsKey(Skill.CRAFTING) || s.skills.containsKey(Skill.THIEVING)));
 		assertEquals(ItemID.HUNDRED_GAUNTLETS_LEVEL_6, Build.MITHRIL_GLOVES.icon);
 		assertEquals(ItemID.HUNDRED_GAUNTLETS_LEVEL_7, Build.ADAMANT_GLOVES.icon);
 	}
@@ -93,6 +92,17 @@ public class PlannerTest
 		assertEquals("0-50 QP", cape.get(0).stage);
 		assertEquals("300-350 QP", cape.get(cape.size() - 1).stage);
 		assertEquals(ItemID.SKILLCAPE_QP, Build.QUEST_CAPE.icon);
+	}
+
+	@Test
+	public void xpRewardsComeBeforeTheQuestsThatNeedThem()
+	{
+		// Measured with the wiki's quest XP rewards: these two moves cut direct training for every gloves build
+		List<Quest> order = GLOVES.route.stream().map(s -> s.quest).collect(Collectors.toList());
+		// Desert Treasure I's 20,000 Magic xp counts towards Family Crest's Magic 59
+		assertTrue(order.indexOf(Quest.DESERT_TREASURE_I) < order.indexOf(Quest.FAMILY_CREST));
+		// Pirate Pete's Cooking xp lands before the other subquests' Cooking levels
+		assertEquals(order.indexOf(Quest.RECIPE_FOR_DISASTER__ANOTHER_COOKS_QUEST) + 1, order.indexOf(Quest.RECIPE_FOR_DISASTER__PIRATE_PETE));
 	}
 
 	@Test

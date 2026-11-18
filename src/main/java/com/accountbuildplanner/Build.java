@@ -22,10 +22,11 @@ import static net.runelite.api.Skill.*;
  */
 enum Build
 {
-	// Culinaromancer's Chest: Mithril gloves after freeing 5 RFD subquests, Adamant after 6. These 6 need the least training.
+	// Culinaromancer's Chest: Mithril gloves after freeing 5 RFD subquests, Adamant after 6. Picked by the least direct
+	// training xp, counting each quest's xp rewards (OSRS Wiki Optimal quest guide data), out of every possible pick.
 	MITHRIL_GLOVES("Mithril gloves", ItemID.HUNDRED_GAUNTLETS_LEVEL_6, needed(barrowsGloves(),
 		RECIPE_FOR_DISASTER__WARTFACE__BENTNOZE, RECIPE_FOR_DISASTER__MOUNTAIN_DWARF, RECIPE_FOR_DISASTER__PIRATE_PETE,
-		RECIPE_FOR_DISASTER__LUMBRIDGE_GUIDE, RECIPE_FOR_DISASTER__SKRACH_UGLOGWEE)),
+		RECIPE_FOR_DISASTER__LUMBRIDGE_GUIDE, RECIPE_FOR_DISASTER__EVIL_DAVE)),
 	ADAMANT_GLOVES("Adamant gloves", ItemID.HUNDRED_GAUNTLETS_LEVEL_7, needed(barrowsGloves(),
 		RECIPE_FOR_DISASTER__WARTFACE__BENTNOZE, RECIPE_FOR_DISASTER__MOUNTAIN_DWARF, RECIPE_FOR_DISASTER__PIRATE_PETE,
 		RECIPE_FOR_DISASTER__LUMBRIDGE_GUIDE, RECIPE_FOR_DISASTER__SKRACH_UGLOGWEE, RECIPE_FOR_DISASTER__EVIL_DAVE)),
@@ -82,6 +83,8 @@ enum Build
 
 			stage("Early members", // and the first RFD subquests
 			q(RECIPE_FOR_DISASTER__ANOTHER_COOKS_QUEST, 1).after(COOKS_ASSISTANT).skill(COOKING, 10),
+			// first subquest: its Cooking xp counts towards the others' Cooking levels
+			q(RECIPE_FOR_DISASTER__PIRATE_PETE, 1).after(RECIPE_FOR_DISASTER__ANOTHER_COOKS_QUEST).skill(COOKING, 31),
 			q(RECIPE_FOR_DISASTER__WARTFACE__BENTNOZE, 1).after(RECIPE_FOR_DISASTER__ANOTHER_COOKS_QUEST, GOBLIN_DIPLOMACY),
 			q(DRUIDIC_RITUAL, 4),
 			q(PRIEST_IN_PERIL, 1),
@@ -132,7 +135,6 @@ enum Build
 			q(SHADOW_OF_THE_STORM, 1).after(THE_GOLEM, DEMON_SLAYER).skill(CRAFTING, 30),
 			q(RECIPE_FOR_DISASTER__EVIL_DAVE, 1).after(RECIPE_FOR_DISASTER__ANOTHER_COOKS_QUEST, GERTRUDES_CAT, SHADOW_OF_THE_STORM).skill(COOKING, 25),
 			q(BIG_CHOMPY_BIRD_HUNTING, 2).skill(FLETCHING, 5).skill(COOKING, 30).skill(RANGED, 30),
-			q(RECIPE_FOR_DISASTER__PIRATE_PETE, 1).after(RECIPE_FOR_DISASTER__ANOTHER_COOKS_QUEST).skill(COOKING, 31),
 			f(CREATURE_OF_FENKENSTRAIN, 2).after(PRIEST_IN_PERIL, THE_RESTLESS_GHOST).skill(CRAFTING, 20).skill(THIEVING, 25),
 			f(SHADES_OF_MORTTON, 3).after(PRIEST_IN_PERIL, DRUIDIC_RITUAL).skill(CRAFTING, 20).skill(HERBLORE, 15).skill(FIREMAKING, 5),
 			q(THE_DIG_SITE, 2).after(DRUIDIC_RITUAL).skill(AGILITY, 10).skill(HERBLORE, 10).skill(THIEVING, 25),
@@ -167,6 +169,10 @@ enum Build
 
 			stage("High-level requirements",
 			q(TEMPLE_OF_IKOV, 1).skill(THIEVING, 42).skill(RANGED, 40),
+			// before Family Crest: its 20,000 Magic xp counts towards Family Crest's Magic 59
+			q(DESERT_TREASURE_I, 3)
+				.after(THE_DIG_SITE, TEMPLE_OF_IKOV, THE_TOURIST_TRAP, TROLL_STRONGHOLD, PRIEST_IN_PERIL, WATERFALL_QUEST)
+				.skill(THIEVING, 53).skill(MAGIC, 50).skill(FIREMAKING, 50).skill(SLAYER, 10),
 			q(FAMILY_CREST, 1).skill(MINING, 40).skill(SMITHING, 40).skill(MAGIC, 59).skill(CRAFTING, 40).note("lvl 170 demon, safespottable"),
 			q(HEROES_QUEST, 1).after(SHIELD_OF_ARRAV, LOST_CITY, MERLINS_CRYSTAL, DRAGON_SLAYER_I, DRUIDIC_RITUAL).qpReq(55)
 				.skill(COOKING, 53).skill(FISHING, 53).skill(HERBLORE, 25).skill(MINING, 50).note("needs a partner"),
@@ -175,9 +181,6 @@ enum Build
 			q(RECIPE_FOR_DISASTER__SIR_AMIK_VARZE, 1)
 				.after(RECIPE_FOR_DISASTER__ANOTHER_COOKS_QUEST, FAMILY_CREST, HEROES_QUEST, SHILO_VILLAGE, UNDERGROUND_PASS, WATERFALL_QUEST)
 				.qpReq(107).note("needs Kharazi Jungle access, lvl 227 black dragon"),
-			q(DESERT_TREASURE_I, 3)
-				.after(THE_DIG_SITE, TEMPLE_OF_IKOV, THE_TOURIST_TRAP, TROLL_STRONGHOLD, PRIEST_IN_PERIL, WATERFALL_QUEST)
-				.skill(THIEVING, 53).skill(MAGIC, 50).skill(FIREMAKING, 50).skill(SLAYER, 10),
 			q(RECIPE_FOR_DISASTER__KING_AWOWOGEI, 1).after(RECIPE_FOR_DISASTER__ANOTHER_COOKS_QUEST, MONKEY_MADNESS_I)
 				.skill(COOKING, 70).skill(AGILITY, 48),
 			q(RECIPE_FOR_DISASTER__CULINAROMANCER, 1)

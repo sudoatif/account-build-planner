@@ -4,7 +4,7 @@ Pick an account build in the sidebar, press **Start**, and the plugin reads your
 
 ## Builds
 
-- **Mithril gloves** / **Adamant gloves**: free 5 / 6 Recipe for Disaster subquests (Goblin generals, Mountain Dwarf, Pirate Pete, Lumbridge Guide, Skrach Uglogwee, and Evil Dave for Adamant): the ones that need the least training.
+- **Mithril gloves** / **Adamant gloves**: free 5 / 6 Recipe for Disaster subquests (Goblin generals, Mountain Dwarf, Pirate Pete, Lumbridge Guide, Evil Dave, and Skrach Uglogwee for Adamant): out of every possible pick, the ones that need the least direct training once quest xp rewards are counted.
 - **Barrows gloves**: the whole of Recipe for Disaster. Required quests come in prerequisite order. Filler quests are added only until you'll have the 175 quest points the Culinaromancer needs, and are skipped if you already have the points.
 - **Song of the Elves**: everything Song of the Elves needs, up to the eight level-70 skills, for Prifddinas.
 - **Quest cape**: every quest RuneLite can track, in the OSRS Wiki's [Optimal quest guide](https://oldschool.runescape.wiki/w/Optimal_quest_guide) order.
